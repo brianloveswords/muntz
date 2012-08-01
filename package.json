@@ -1,6 +1,6 @@
 {
   "name": "muntz",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Request connection mocking library",
   "main": "index.js",
   "directories": {
