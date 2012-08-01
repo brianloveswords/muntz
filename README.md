@@ -1,0 +1,1 @@
+http://wtfpl.org/

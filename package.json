@@ -1,0 +1,23 @@
+{
+  "name": "muntz",
+  "version": "0.0.0",
+  "description": "Request connection mocking library",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/tap test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brianloveswords/muntz.git"
+  },
+  "keywords": [
+    "mocking",
+    "connection",
+    "express"
+  ],
+  "author": "Brian J. Brennan",
+  "license": "http://wtfpl.org/"
+}
