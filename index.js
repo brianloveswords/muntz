@@ -2,12 +2,13 @@ var _ = require('underscore');
 var mime = require('mime');
 
 module.exports = function muntz(fn, request, paramVal, callback) {
-  var mock, response;
-  if (typeof paramVal === 'function') {
-    callback = paramVal;
-    paramVal = callback;
-  }
-  mock = {};
+  var response;
+  if (typeof paramVal === 'function')
+    callback = paramVal, paramVal = callback;
+
+  if (typeof request === 'function')
+    callback = request, request = {};
+
   request = _.defaults(request, {
     url: '',
     headers: {},
@@ -31,34 +32,29 @@ module.exports = function muntz(fn, request, paramVal, callback) {
       return this.header('Content-Type', mime.lookup(type));
     },
     send: function (data, status) {
-      this.fntype = 'send';
+      var meta = { type: 'send' };
       this.body = data;
       this.status = status || 200;
-      this.request = request;
-      callback(null, this);
+      callback(request, this, meta);
     },
     json: function (data, status) {
-      this.fntype = 'json';
+      var meta = { type: 'json' };
       this.body = data;
       this.status = status;
-      this.request = request;
-      callback(null, this);
+      callback(request, this, meta);
     },
     render: function (path, options) {
       options = options || {};
-      this.fntype = 'render';
-      this.path = path;
+      var meta = { type: 'render', options: options, path: path };
       this.status = options.status || 200;
-      this.request = request;
-      this.options = options;
-      callback(null, this);
+      callback(request, this, meta);
     },
   };
   response._request = request;
 
   function next () {
     response.fntype = 'next';
-    callback(null, response);
+    callback(request, response);
   }
 
   return fn(request, response, next, paramVal);
